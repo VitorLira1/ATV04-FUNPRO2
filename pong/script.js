@@ -14,19 +14,18 @@ let ballPoints = 0
 let paddlePoints = 0
 const scoreBoard = document.querySelector('#scoreBoard');
 
-// Inicia o movimento
+
 paddle.addEventListener('mousedown', (e) => {
     isMoving = true;
     offsetY = e.clientY - paddle.offsetTop;
     paddle.style.cursor = 'grabbing';
 });
 
-// Movimenta a div com o mouse
+
 document.addEventListener('mousemove', (e) => {
     if (isMoving) {
         let newY = e.clientY - offsetY;
-
-        // Limitar o movimento dentro da div container
+        
         const containerRect = board.getBoundingClientRect();
         const movableRect = paddle.getBoundingClientRect();
 
@@ -40,7 +39,6 @@ document.addEventListener('mousemove', (e) => {
     }
 });
 
-// Para o movimento
 document.addEventListener('mouseup', () => {
     isMoving = false;
     paddle.style.cursor = 'pointer';
@@ -53,19 +51,18 @@ function getRandomYPosition() {
 }
 
 function animateBall() {
-    // Atualiza a posição da bola
     ballX += speedX;
 
-    // Verifica a colisão com as bordas do container
+
     if (ballX <= 0 || ballX + ballDiameter >= boardRect.width) {
         ballPoints += 1
         console.log(`ball: ${ballPoints}`)
         resetBall();
     }
 
-    // Verifica a colisão com o paddle
+
     const ballRect = ball.getBoundingClientRect();
-    const paddleRect = paddle.getBoundingClientRect();  // Pega a posição atual do paddle
+    const paddleRect = paddle.getBoundingClientRect(); 
     if (
         ballRect.right >= paddleRect.left &&
         ballRect.left <= paddleRect.right &&
@@ -78,19 +75,17 @@ function animateBall() {
     }
     scoreBoard.innerText = `${ballPoints} X ${paddlePoints}`;
 
-    // Atualiza a posição da bola
+    
     ball.style.left = `${ballX}px`;
     ball.style.top = `${ballY}px`;
 
     requestAnimationFrame(animateBall);
 }
 
-// Função para resetar a posição da bola
 function resetBall() {
     ballX = 0;
     ballY = getRandomYPosition();
-    speedX = 7; // Reinicia a velocidade horizontal
+    speedX = 7; 
 }
 
-// Inicia a animação
 animateBall();
